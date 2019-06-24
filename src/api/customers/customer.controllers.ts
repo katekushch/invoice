@@ -1,4 +1,4 @@
-import { addCustomerToDB, getCustomerFromDB, getCustomersFromBD } from './customer.service';
+import { addCustomerToDB, getCustomerFromDB, getCustomersFromBD, updateCustomerInDB } from './customer.service';
 
 export function getCustomers(req, res, next) {
   getCustomersFromBD()
@@ -16,6 +16,14 @@ export function postCustomers(req, res, next) {
 export function getCustomer(req, res, next) {
   const customerId = req.params.id;
   getCustomerFromDB(customerId)
+  .then((customer) => res.json(customer))
+  .catch((err) => res.status(404).json({message: 'customer not found'}))
+}
+
+export function putCustomer(req, res, next) {
+  const updatedCustomer = req.body;
+  const customerId = req.params.id;
+  updateCustomerInDB(customerId, updatedCustomer)
   .then((customer) => res.json(customer))
   .catch((err) => res.status(404).json({message: 'customer not found'}))
 }
