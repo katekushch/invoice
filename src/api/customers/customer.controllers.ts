@@ -38,6 +38,6 @@ export function deleteCustomer(req, res, next) {
   const customerId = req.params.id;
   deleteCustomerFromDB(customerId)
   .then((response) => res.send(response))
-  .catch((err) => res.status(500).json({message: err.message}))
+  .catch((err) => res.status(404).json({message: 'customer not found'}))
 }
 
