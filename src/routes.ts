@@ -13,5 +13,3 @@ export function initRouts(app) {
   })
 }
 
-
-// добавить все роуты
