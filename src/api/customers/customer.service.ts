@@ -20,10 +20,20 @@ export function getCustomerFromDB(id) {
 
 export function updateCustomerInDB(id, updatedCustomer) {
   const customerIndex = customers.findIndex((customer) => customer._id === Number(id));
-     if (customerIndex === -1) {
-       return Promise.reject('Customer not found!');
-     } else {
-       customers[customerIndex] = updatedCustomer;
-       return Promise.resolve(updatedCustomer);
-     }
+  if (customerIndex === -1) {
+    return Promise.reject('Customer not found!');
+  } else {
+    customers[customerIndex] = updatedCustomer;
+    return Promise.resolve(updatedCustomer);
+  }
+}
+
+export function deleteCustomerFromDB(id) {
+  const customerIndex = customers.findIndex((customer) => customer._id === Number(id));
+  if (customerIndex === -1) {
+    return Promise.reject('Customer not found!');
+  } else {
+    customers.splice(customerIndex, 1);
+    return Promise.resolve('Customer removed');
+  }
 }
