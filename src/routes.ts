@@ -8,11 +8,11 @@ export function initRouts(app) {
 
   // All undefined routes should return a 404
   app.route('/*').get((req, res) => {
-    res.status(404).send(createError(404, 'Page not found'));
+    res.status(404).send(createError(404, 'Not existed endpoint'));
   });
 
   app.use((err, req, res, next) => {
-    res.status(500).send(createError(500, 'Server error'))
-  })
+    res.status(err.status || 500).send(createError(err.status || 500, err.message || 'Server error'))
+  });
 }
 

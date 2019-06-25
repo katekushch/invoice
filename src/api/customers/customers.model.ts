@@ -1,10 +1,14 @@
-import { Customer } from './customers.interface';
+export class Customer {
+  _id: number = null;
+  name: string = null;
+  address: string = null;
+  phone: string = null;
 
-export const customers: Customer[] = [
-  {
-    _id: 1,
-    name: 'Customer 1',
-    address: 'Address 1',
-    phone: '123456',
+  constructor(obj) {
+    for (let key in this) {
+      if (typeof obj[key] !== 'undefined') {
+        this[key] = obj[key];
+      }
+    }
   }
-];
+}
