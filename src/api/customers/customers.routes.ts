@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { deleteCustomer, getCustomer, getCustomers, postCustomers, putCustomer } from './customer.controllers';
+import { deleteCustomer, getCustomer, getCustomers, postCustomers, putCustomer } from './customers.controllers';
 
 const customersRouts = Router();
 

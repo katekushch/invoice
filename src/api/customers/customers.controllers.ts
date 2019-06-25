@@ -6,7 +6,7 @@ import {
   getCustomerFromDB,
   getCustomersFromBD,
   updateCustomerInDB
-} from './customer.service';
+} from './customers.service';
 
 export function getCustomers(req, res, next) {
   getCustomersFromBD()

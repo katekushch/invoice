@@ -1,4 +1,4 @@
-import customersRouts from './api/customers/customer.routes';
+import customersRouts from './api/customers/customers.routes';
 import { createError } from './utils/createError';
 
 export function initRouts(app) {

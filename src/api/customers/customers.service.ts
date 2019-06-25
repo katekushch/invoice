@@ -1,4 +1,4 @@
-import { customers } from './customer.model';
+import { customers } from './customers.model';
 import { createError } from '../../utils/createError';
 
 export function getCustomersFromBD() {
