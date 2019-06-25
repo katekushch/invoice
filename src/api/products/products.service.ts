@@ -1,12 +1,14 @@
 import { createError } from '../../utils/createError';
-import { products } from './products.model';
+
+import { products } from './products.mock';
+import { Product } from './products.model';
 
 export function getProductsFromBD() {
   return Promise.resolve(products)
 }
 
 export function addProductToDB(product) {
-  products.push(product);
+  products.push(new Product(product));
   return Promise.resolve('Success added');
 }
 
@@ -19,11 +21,12 @@ export function getProductFromDB(id) {
   }
 }
 
-export function updateProductInDB(id, updatedProduct) {
+export function updateProductInDB(id, updatedOptions) {
   const productIndex = products.findIndex((product) => product._id === Number(id));
   if (productIndex === -1) {
     return Promise.reject(createError(404, 'Product not found!'));
   } else {
+    const updatedProduct = new Product({...products[productIndex], ...updatedOptions});
     products[productIndex] = updatedProduct;
     return Promise.resolve(updatedProduct);
   }
