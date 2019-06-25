@@ -1,3 +1,5 @@
+import { CustomError } from '../../models/custom-error.model';
+
 import {
   addCustomerToDB,
   deleteCustomerFromDB,
@@ -9,21 +11,21 @@ import {
 export function getCustomers(req, res, next) {
   getCustomersFromBD()
   .then((customers) => res.json(customers))
-  .catch((err) => res.status(500).json({message: err.message}))
+  .catch((err: CustomError) => res.status(err.status).json(err))
 }
 
 export function postCustomers(req, res, next) {
   const newCustomer = req.body;
   addCustomerToDB(newCustomer)
   .then((response) => res.send(response))
-  .catch((err) => res.status(500).json({message: err.message}))
+  .catch((err: CustomError) => res.status(500).json(err))
 }
 
 export function getCustomer(req, res, next) {
   const customerId = req.params.id;
   getCustomerFromDB(customerId)
   .then((customer) => res.json(customer))
-  .catch((err) => res.status(404).json({message: 'customer not found'}))
+  .catch((err: CustomError) => res.status(404).json(err))
 }
 
 export function putCustomer(req, res, next) {
@@ -31,13 +33,13 @@ export function putCustomer(req, res, next) {
   const customerId = req.params.id;
   updateCustomerInDB(customerId, updatedCustomer)
   .then((customer) => res.json(customer))
-  .catch((err) => res.status(404).json({message: 'customer not found'}))
+  .catch((err: CustomError) => res.status(404).json(err))
 }
 
 export function deleteCustomer(req, res, next) {
   const customerId = req.params.id;
   deleteCustomerFromDB(customerId)
   .then((response) => res.send(response))
-  .catch((err) => res.status(404).json({message: 'customer not found'}))
+  .catch((err: CustomError) => res.status(404).json(err))
 }
 
