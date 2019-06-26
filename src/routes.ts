@@ -1,10 +1,12 @@
 import { createError } from './utils/createError';
 import customersRouts from './api/customers/customers.routes';
 import productsRouts from './api/products/products.routes';
+import invoicesRouts from './api/invoices/invoices.routes';
 
 export function initRouts(app) {
   app.use('/customers', customersRouts);
   app.use('/products', productsRouts);
+  app.use('/invoices', invoicesRouts);
 
   // All undefined routes should return a 404
   app.route('/*').get((req, res) => {
