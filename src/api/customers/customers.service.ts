@@ -8,13 +8,9 @@ export function getCustomersFromBD() {
 }
 
 export function addCustomerToDB(customer) {
-  const foundedCustomer = customers.find((customer) => customer._id === Number(customer._id));
-  if (foundedCustomer) {
-    return Promise.reject(createError(400, 'Customer already exists'));
-  } else {
-    customers.push(new Customer(customer));
-    return Promise.resolve('Success added');
-  }
+  customer._id = customers.length + 1;
+  customers.push(new Customer(customer));
+  return Promise.resolve('Success added');
 }
 
 export function getCustomerFromDB(id) {
