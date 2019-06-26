@@ -8,6 +8,7 @@ export function getProductsFromBD() {
 }
 
 export function addProductToDB(product) {
+  product._id = products.length + 1;
   products.push(new Product(product));
   return Promise.resolve('Success added');
 }
