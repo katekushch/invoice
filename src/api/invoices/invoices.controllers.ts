@@ -21,23 +21,25 @@ export function postInvoices(req, res, next) {
 }
 
 export function getInvoice(req, res, next) {
-  const invoiceId = req.params.id;
-  getInvoiceFromDB(invoiceId)
+  const invoiceIndex = req.entityIndex;
+  getInvoiceFromDB(invoiceIndex)
   .then((invoice) => res.json(invoice))
   .catch(next)
 }
 
 export function putInvoice(req, res, next) {
   const updatedOptions: Partial<InvoiceInterface> = req.body;
-  const invoiceId = req.params.id;
-  updateInvoiceInDB(invoiceId, updatedOptions)
+  const invoiceIndex = req.entityIndex;
+  updateInvoiceInDB(invoiceIndex, updatedOptions)
   .then((invoice) => res.json(invoice))
   .catch(next)
 }
 
 export function deleteInvoice(req, res, next) {
-  const invoiceId = req.params.id;
-  deleteInvoiceFromDB(invoiceId)
+  const invoiceIndex = req.entityIndex;
+  const invoiceId = Number(req.params.id);
+  deleteInvoiceFromDB(invoiceIndex, invoiceId)
   .then((response) => res.status(204).send(response))
   .catch(next)
 }
+
