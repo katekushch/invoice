@@ -21,23 +21,20 @@ export function postCustomers(req, res, next) {
 }
 
 export function getCustomer(req, res, next) {
-  const customerId = req.params.id;
-  getCustomerFromDB(customerId)
+  getCustomerFromDB(req.entityIndex)
   .then((customer) => res.json(customer))
   .catch(next)
 }
 
 export function putCustomer(req, res, next) {
   const updatedOptions: Partial<CustomerInterface> = req.body;
-  const customerId = req.params.id;
-  updateCustomerInDB(customerId, updatedOptions)
+  updateCustomerInDB(req.entityIndex, updatedOptions)
   .then((customer) => res.json(customer))
   .catch(next)
 }
 
 export function deleteCustomer(req, res, next) {
-  const customerId = req.params.id;
-  deleteCustomerFromDB(customerId)
+  deleteCustomerFromDB(req.entityIndex)
   .then((response) => res.status(204).send(response))
   .catch(next)
 }
