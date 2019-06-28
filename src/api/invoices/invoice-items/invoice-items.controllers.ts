@@ -24,23 +24,20 @@ export function postInvoiceItem(req, res, next) {
 }
 
 export function getInvoiceItem(req, res, next) {
-  const invoiceItemId = req.params.id;
-  getInvoiceItemFromDB(invoiceItemId)
+  getInvoiceItemFromDB(req.entityIndex)
   .then((invoiceItem) => res.json(invoiceItem))
   .catch(next)
 }
 
 export function putInvoiceItem(req, res, next) {
   const updatedOptions: Partial<InvoiceItemInterface> = req.body;
-  const invoiceItemId = req.params.id;
-  updateInvoiceItemInDB(invoiceItemId, updatedOptions)
+  updateInvoiceItemInDB(req.entityIndex, updatedOptions)
   .then((invoiceItem) => res.json(invoiceItem))
   .catch(next)
 }
 
 export function deleteInvoiceItem(req, res, next) {
-  const invoiceItemId = req.params.id;
-  deleteInvoiceItemFromDB(invoiceItemId)
+  deleteInvoiceItemFromDB(req.entityIndex)
   .then((response) => res.status(204).send(response))
   .catch(next)
 }
