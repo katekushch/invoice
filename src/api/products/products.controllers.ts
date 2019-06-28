@@ -16,29 +16,26 @@ export function getProducts(req, res, next) {
 export function postProduct(req, res, next) {
   const newProduct: ProductInterface = req.body;
   addProductToDB(newProduct)
-  .then((response) => res.send(response))
+  .then((response) => res.status(201).send(response))
   .catch(next)
 }
 
 export function getProduct(req, res, next) {
-  const productId = req.params.id;
-  getProductFromDB(productId)
+  getProductFromDB(req.entityIndex)
   .then((product) => res.json(product))
   .catch(next)
 }
 
 export function putProduct(req, res, next) {
   const updatedOptions: Partial<ProductInterface> = req.body;
-  const productId = req.params.id;
-  updateProductInDB(productId, updatedOptions)
+  updateProductInDB(req.entityIndex, updatedOptions)
   .then((product) => res.json(product))
   .catch(next)
 }
 
 export function deleteProduct(req, res, next) {
-  const productId = req.params.id;
-  deleteProductFromDB(productId)
-  .then((response) => res.send(response))
+  deleteProductFromDB(req.entityIndex)
+  .then((response) => res.status(204).send(response))
   .catch(next)
 }
 

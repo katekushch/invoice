@@ -13,32 +13,17 @@ export function addProductToDB(product) {
   return Promise.resolve('Success added');
 }
 
-export function getProductFromDB(id) {
-  const foundedProduct = products.find((product) => product._id === Number(id));
-  if (foundedProduct) {
-    return Promise.resolve(foundedProduct);
-  } else {
-    return Promise.reject(createError(404, 'Product not found!'));
-  }
+export function getProductFromDB(productIndex) {
+  return Promise.resolve(products[productIndex]);
 }
 
-export function updateProductInDB(id, updatedOptions) {
-  const productIndex = products.findIndex((product) => product._id === Number(id));
-  if (productIndex === -1) {
-    return Promise.reject(createError(404, 'Product not found!'));
-  } else {
-    const updatedProduct = new Product({...products[productIndex], ...updatedOptions});
-    products[productIndex] = updatedProduct;
-    return Promise.resolve(updatedProduct);
-  }
+export function updateProductInDB(productIndex, updatedOptions) {
+  const updatedProduct = new Product({...products[productIndex], ...updatedOptions});
+  products[productIndex] = updatedProduct;
+  return Promise.resolve(updatedProduct);
 }
 
-export function deleteProductFromDB(id) {
-  const productIndex = products.findIndex((product) => product._id === Number(id));
-  if (productIndex === -1) {
-    return Promise.reject(createError(404, 'Product not found!'));
-  } else {
-    products.splice(productIndex, 1);
-    return Promise.resolve('Product removed');
-  }
+export function deleteProductFromDB(productIndex) {
+  products.splice(productIndex, 1);
+  return Promise.resolve('Product removed');
 }
