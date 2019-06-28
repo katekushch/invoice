@@ -7,5 +7,11 @@ export const invoices: InvoiceInterface[] = [
     customer_id: 1,
     discount: 0,
     total: 2,
+  }),
+  new Invoice({
+    _id: 2,
+    customer_id: 1,
+    discount: 0,
+    total: 8,
   })
 ];
