@@ -6,7 +6,7 @@ export function getCustomersFromBD() {
 }
 
 export function addCustomerToDB(customer) {
-  customer._id = customers.length + 1;
+  customer._id = customers.length ? customers[customers.length - 1]._id + 1 : 1;
   const createdCustomer = new Customer(customer);
   customers.push(createdCustomer);
   return Promise.resolve(createdCustomer);

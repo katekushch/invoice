@@ -8,13 +8,13 @@ export function getInvoicesFromBD() {
 }
 
 export function addInvoiceToDB(invoice) {
-  invoice._id = invoices.length + 1;
+  invoice._id = invoices.length ? invoices[invoices.length - 1]._id + 1 : 1;
   const createdInvoice = new Invoice(invoice);
   invoices.push(new Invoice(invoice));
   if (invoice.items) {
     invoice.items.map((invoiceItem) => {
       invoiceItem.invoice_id = invoice._id;
-      invoiceItem._id = invoiceItems.length + 1;
+      invoiceItem._id = invoiceItems.length ? invoiceItems[invoiceItems.length - 1]._id + 1 : 1;
       invoiceItems.push(new InvoiceItems(invoiceItem));
     });
   }

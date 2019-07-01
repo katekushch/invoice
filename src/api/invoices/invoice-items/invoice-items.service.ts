@@ -7,7 +7,7 @@ export function getInvoiceItemsFromBD(invoiceId) {
 }
 
 export function addInvoiceItemToDB(invoiceItem) {
-  invoiceItem._id = invoiceItems.length + 1;
+  invoiceItem._id = invoiceItems.length ? invoiceItems[invoiceItems.length - 1]._id + 1 : 1;
   const createdItem = new InvoiceItems(invoiceItem);
   invoiceItems.push(createdItem);
   return Promise.resolve(createdItem);

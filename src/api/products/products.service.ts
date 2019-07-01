@@ -6,7 +6,7 @@ export function getProductsFromBD() {
 }
 
 export function addProductToDB(product) {
-  product._id = products.length + 1;
+  product._id = products.length ? products[products.length - 1]._id + 1 : 1;
   const createdProduct = new Product(product);
   products.push(createdProduct);
   return Promise.resolve(createdProduct);
