@@ -36,7 +36,7 @@ export function putInvoice(req, res, next) {
 export function deleteInvoice(req, res, next) {
   const invoiceId = Number(req.params.id);
   deleteInvoiceFromDB(req.entityIndex, invoiceId)
-  .then((response) => res.status(204).send(response))
+  .then((response) => res.send(response))
   .catch(next)
 }
 

@@ -1,7 +1,7 @@
 import { createError } from './utils/createError';
 import customersRouts from './api/customers';
 import productsRouts from './api/products';
-import invoicesRouts from './api/invoices/invoices.routes';
+import invoicesRouts from './api/invoices';
 
 export function initRouts(app) {
   app.use('/customers', customersRouts);

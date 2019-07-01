@@ -9,6 +9,7 @@ export function getInvoicesFromBD() {
 
 export function addInvoiceToDB(invoice) {
   invoice._id = invoices.length + 1;
+  const createdInvoice = new Invoice(invoice);
   invoices.push(new Invoice(invoice));
   if (invoice.items) {
     invoice.items.map((invoiceItem) => {
@@ -17,7 +18,7 @@ export function addInvoiceToDB(invoice) {
       invoiceItems.push(new InvoiceItems(invoiceItem));
     });
   }
-  return Promise.resolve('Success added');
+  return Promise.resolve(createdInvoice);
 }
 
 export function getInvoiceFromDB(index) {
@@ -31,9 +32,9 @@ export function updateInvoiceInDB(invoiceIndex, updatedOptions) {
       const foundedItem = invoiceItems.findIndex((item) => item._id === invoiceItem._id);
       invoiceItems[foundedItem] = {...invoiceItems[foundedItem], ...invoiceItem}
     });
-    invoices[invoiceIndex] = updatedInvoice;
-    return Promise.resolve(updatedInvoice);
   }
+  invoices[invoiceIndex] = updatedInvoice;
+  return Promise.resolve(updatedInvoice);
 }
 
 export function deleteInvoiceFromDB(invoiceIndex, invoiceId) {
@@ -42,6 +43,7 @@ export function deleteInvoiceFromDB(invoiceIndex, invoiceId) {
     const index = invoiceItems.findIndex((invoiceItem) => invoiceItem._id === item._id);
     invoiceItems.splice(index, 1);
   });
+  const removedInvoice = invoices[invoiceIndex];
   invoices.splice(invoiceIndex, 1);
-  return Promise.resolve('Invoice removed');
+  return Promise.resolve(removedInvoice);
 }
