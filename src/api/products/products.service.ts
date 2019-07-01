@@ -1,5 +1,3 @@
-import { createError } from '../../utils/createError';
-
 import { products } from './products.mock';
 import { Product } from './products.model';
 
@@ -9,8 +7,9 @@ export function getProductsFromBD() {
 
 export function addProductToDB(product) {
   product._id = products.length + 1;
-  products.push(new Product(product));
-  return Promise.resolve('Success added');
+  const createdProduct = new Product(product);
+  products.push(createdProduct);
+  return Promise.resolve(createdProduct);
 }
 
 export function getProductFromDB(productIndex) {
@@ -24,6 +23,7 @@ export function updateProductInDB(productIndex, updatedOptions) {
 }
 
 export function deleteProductFromDB(productIndex) {
+  const deletedProduct = products[productIndex];
   products.splice(productIndex, 1);
-  return Promise.resolve('Product removed');
+  return Promise.resolve(deletedProduct);
 }

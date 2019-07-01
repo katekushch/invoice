@@ -35,7 +35,7 @@ export function putProduct(req, res, next) {
 
 export function deleteProduct(req, res, next) {
   deleteProductFromDB(req.entityIndex)
-  .then((response) => res.status(204).send(response))
+  .then((response) => res.send(response))
   .catch(next)
 }
 
