@@ -38,6 +38,6 @@ export function putInvoiceItem(req, res, next) {
 
 export function deleteInvoiceItem(req, res, next) {
   deleteInvoiceItemFromDB(req.entityIndex)
-  .then((response) => res.status(204).send(response))
+  .then((response) => res.send(response))
   .catch(next)
 }

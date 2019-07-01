@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { isEntityExists } from '../../utils/isEntityExists';
 
 import { deleteInvoice, getInvoice, getInvoices, postInvoices, putInvoice } from './invoices.controllers';
-import invoiceItemsRouts from './invoice-items/invoice-items.routes';
+import invoiceItemsRouts from './invoice-items';
 import { invoices } from './invoices.mock';
 
 const invoicesRouts = Router({mergeParams: true});

@@ -8,8 +8,9 @@ export function getInvoiceItemsFromBD(invoiceId) {
 
 export function addInvoiceItemToDB(invoiceItem) {
   invoiceItem._id = invoiceItems.length + 1;
-  invoiceItems.push(new InvoiceItems(invoiceItem));
-  return Promise.resolve('Success added');
+  const createdItem = new InvoiceItems(invoiceItem);
+  invoiceItems.push(createdItem);
+  return Promise.resolve(createdItem);
 }
 
 export function getInvoiceItemFromDB(invoiceItemIndex) {
@@ -23,6 +24,7 @@ export function updateInvoiceItemInDB(invoiceItemIndex, updatedOptions) {
 }
 
 export function deleteInvoiceItemFromDB(invoiceItemIndex) {
+  const removedItem = invoiceItems[invoiceItemIndex];
   invoiceItems.splice(invoiceItemIndex, 1);
-  return Promise.resolve('Invoice item removed');
+  return Promise.resolve(removedItem);
 }
