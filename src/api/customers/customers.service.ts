@@ -7,8 +7,9 @@ export function getCustomersFromBD() {
 
 export function addCustomerToDB(customer) {
   customer._id = customers.length + 1;
-  customers.push(new Customer(customer));
-  return Promise.resolve('Success added');
+  const createdCustomer = new Customer(customer);
+  customers.push(createdCustomer);
+  return Promise.resolve(createdCustomer);
 }
 
 export function getCustomerFromDB(customerIndex) {
@@ -22,6 +23,7 @@ export function updateCustomerInDB(customerIndex, updatedOptions) {
 }
 
 export function deleteCustomerFromDB(customerIndex) {
+  const removedCustomer = customers[customerIndex];
   customers.splice(customerIndex, 1);
-  return Promise.resolve('Customer removed');
+  return Promise.resolve(removedCustomer);
 }

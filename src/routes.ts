@@ -1,5 +1,5 @@
 import { createError } from './utils/createError';
-import customersRouts from './api/customers/customers.routes';
+import customersRouts from './api/customers';
 import productsRouts from './api/products/products.routes';
 import invoicesRouts from './api/invoices/invoices.routes';
 
