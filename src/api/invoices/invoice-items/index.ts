@@ -1,7 +1,5 @@
 import {Router} from 'express';
 
-import { isEntityExists } from '../../../utils/isEntityExists';
-
 import {
   deleteInvoiceItem,
   getInvoiceItem,
@@ -9,7 +7,8 @@ import {
   postInvoiceItem,
   putInvoiceItem
 } from './invoice-items.controllers';
-import { invoiceItems } from './invoice-items.mock';
+import { isEntityExistsNew } from '../../../utils/isEntityExistsNew';
+import InvoiceItem from './invoice-item.model';
 
 const invoiceItemsRouts = Router({mergeParams: true});
 
@@ -17,7 +16,7 @@ invoiceItemsRouts.route('/')
 .get(getInvoiceItems)
 .post(postInvoiceItem);
 
-invoiceItemsRouts.use('/:id', isEntityExists(invoiceItems, 'id'));
+invoiceItemsRouts.use('/:id', isEntityExistsNew(InvoiceItem, 'id'));
 invoiceItemsRouts.route('/:id')
 .get(getInvoiceItem)
 .put(putInvoiceItem)

@@ -1,7 +1,6 @@
 import {
   addInvoiceToDB,
   deleteInvoiceFromDB,
-  getInvoiceFromDB,
   getInvoicesFromBD,
   updateInvoiceInDB
 } from './invoicecs.service';
@@ -21,21 +20,18 @@ export function postInvoices(req, res, next) {
 }
 
 export function getInvoice(req, res, next) {
-  getInvoiceFromDB(req.entityIndex)
-  .then((invoice) => res.json(invoice))
-  .catch(next)
+  res.send(req.entity);
 }
 
 export function putInvoice(req, res, next) {
   const updatedOptions: Partial<InvoiceInterface> = req.body;
-  updateInvoiceInDB(req.entityIndex, updatedOptions)
+  updateInvoiceInDB(req.params.id, updatedOptions)
   .then((invoice) => res.json(invoice))
   .catch(next)
 }
 
 export function deleteInvoice(req, res, next) {
-  const invoiceId = Number(req.params.id);
-  deleteInvoiceFromDB(req.entityIndex, invoiceId)
+  deleteInvoiceFromDB(req.params.id)
   .then((response) => res.send(response))
   .catch(next)
 }

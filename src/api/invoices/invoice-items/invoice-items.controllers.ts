@@ -1,7 +1,6 @@
 import {
   addInvoiceItemToDB,
   deleteInvoiceItemFromDB,
-  getInvoiceItemFromDB,
   getInvoiceItemsFromBD,
   updateInvoiceItemInDB
 } from './invoice-items.service';
@@ -15,29 +14,26 @@ export function getInvoiceItems(req, res, next) {
 }
 
 export function postInvoiceItem(req, res, next) {
-  const invoiceId = req.params.invoice_id;
   const newInvoiceItem: InvoiceItemInterface = req.body;
-  newInvoiceItem.invoice_id = Number(invoiceId);
+  newInvoiceItem.invoice_id = req.params.invoice_id;
   addInvoiceItemToDB(newInvoiceItem)
   .then((response) => res.status(201).send(response))
   .catch(next)
 }
 
 export function getInvoiceItem(req, res, next) {
-  getInvoiceItemFromDB(req.entityIndex)
-  .then((invoiceItem) => res.json(invoiceItem))
-  .catch(next)
+  res.send(req.entity);
 }
 
 export function putInvoiceItem(req, res, next) {
   const updatedOptions: Partial<InvoiceItemInterface> = req.body;
-  updateInvoiceItemInDB(req.entityIndex, updatedOptions)
+  updateInvoiceItemInDB(req.params.id, updatedOptions)
   .then((invoiceItem) => res.json(invoiceItem))
   .catch(next)
 }
 
 export function deleteInvoiceItem(req, res, next) {
-  deleteInvoiceItemFromDB(req.entityIndex)
+  deleteInvoiceItemFromDB(req.params.id)
   .then((response) => res.send(response))
   .catch(next)
 }
