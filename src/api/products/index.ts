@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { isEntityExists } from '../../utils/isEntityExists';
+import { isEntityExistsNew } from '../../utils/isEntityExistsNew';
 
-import { products } from './products.mock';
 import { deleteProduct, getProduct, getProducts, postProduct, putProduct } from './products.controllers';
+import Product from './product.model';
 
 const productsRouts = Router();
 
@@ -11,7 +11,7 @@ productsRouts.route('/')
 .get(getProducts)
 .post(postProduct);
 
-productsRouts.use('/:id', isEntityExists(products, 'id'));
+productsRouts.use('/:id', isEntityExistsNew(Product, 'id'));
 
 productsRouts.route('/:id')
 .get(getProduct)

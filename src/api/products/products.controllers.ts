@@ -1,7 +1,6 @@
 import {
   addProductToDB,
   deleteProductFromDB,
-  getProductFromDB,
   getProductsFromBD,
   updateProductInDB
 } from './products.service';
@@ -21,20 +20,18 @@ export function postProduct(req, res, next) {
 }
 
 export function getProduct(req, res, next) {
-  getProductFromDB(req.entityIndex)
-  .then((product) => res.json(product))
-  .catch(next)
+  res.send(req.entity);
 }
 
 export function putProduct(req, res, next) {
   const updatedOptions: Partial<ProductInterface> = req.body;
-  updateProductInDB(req.entityIndex, updatedOptions)
+  updateProductInDB(req.params.id, updatedOptions)
   .then((product) => res.json(product))
   .catch(next)
 }
 
 export function deleteProduct(req, res, next) {
-  deleteProductFromDB(req.entityIndex)
+  deleteProductFromDB(req.params.id)
   .then((response) => res.send(response))
   .catch(next)
 }

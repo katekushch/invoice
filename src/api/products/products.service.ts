@@ -1,29 +1,18 @@
-import { products } from './products.mock';
-import { Product } from './products.model';
+import Product from './product.model';
 
 export function getProductsFromBD() {
-  return Promise.resolve(products)
+  return Product.find();
 }
 
 export function addProductToDB(product) {
-  product._id = products.length ? products[products.length - 1]._id + 1 : 1;
-  const createdProduct = new Product(product);
-  products.push(createdProduct);
-  return Promise.resolve(createdProduct);
+  const newEntity = new Product(product);
+  return newEntity.save();
 }
 
-export function getProductFromDB(productIndex) {
-  return Promise.resolve(products[productIndex]);
+export function updateProductInDB(productId, updatedOptions) {
+  return Product.findByIdAndUpdate(productId, updatedOptions, {new: true});
 }
 
-export function updateProductInDB(productIndex, updatedOptions) {
-  const updatedProduct = new Product({...products[productIndex], ...updatedOptions});
-  products[productIndex] = updatedProduct;
-  return Promise.resolve(updatedProduct);
-}
-
-export function deleteProductFromDB(productIndex) {
-  const deletedProduct = products[productIndex];
-  products.splice(productIndex, 1);
-  return Promise.resolve(deletedProduct);
+export function deleteProductFromDB(productId) {
+  return Product.findByIdAndRemove(productId);
 }
