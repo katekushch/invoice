@@ -1,29 +1,18 @@
-import { customers } from './customers.mock';
-import { Customer } from './customers.model';
+import Customer from './customer.model';
 
 export function getCustomersFromBD() {
-  return Promise.resolve(customers)
+  return Customer.find();
 }
 
 export function addCustomerToDB(customer) {
-  customer._id = customers.length ? customers[customers.length - 1]._id + 1 : 1;
-  const createdCustomer = new Customer(customer);
-  customers.push(createdCustomer);
-  return Promise.resolve(createdCustomer);
+  const newEntity = new Customer(customer);
+  return newEntity.save();
 }
 
-export function getCustomerFromDB(customerIndex) {
-  return Promise.resolve(customers[customerIndex]);
+export function updateCustomerInDB(customerId, updatedOptions) {
+  return Customer.findByIdAndUpdate(customerId, updatedOptions, {new: true});
 }
 
-export function updateCustomerInDB(customerIndex, updatedOptions) {
-  const updatedCustomer = new Customer({...customers[customerIndex], ...updatedOptions});
-  customers[customerIndex] = updatedCustomer;
-  return Promise.resolve(updatedCustomer);
-}
-
-export function deleteCustomerFromDB(customerIndex) {
-  const removedCustomer = customers[customerIndex];
-  customers.splice(customerIndex, 1);
-  return Promise.resolve(removedCustomer);
+export function deleteCustomerFromDB(customerId) {
+  return Customer.findByIdAndRemove(customerId);
 }

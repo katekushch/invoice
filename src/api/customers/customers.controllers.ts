@@ -1,7 +1,6 @@
 import {
   addCustomerToDB,
   deleteCustomerFromDB,
-  getCustomerFromDB,
   getCustomersFromBD,
   updateCustomerInDB
 } from './customers.service';
@@ -21,20 +20,18 @@ export function postCustomers(req, res, next) {
 }
 
 export function getCustomer(req, res, next) {
-  getCustomerFromDB(req.entityIndex)
-  .then((customer) => res.json(customer))
-  .catch(next)
+  res.send(req.entity);
 }
 
 export function putCustomer(req, res, next) {
   const updatedOptions: Partial<CustomerInterface> = req.body;
-  updateCustomerInDB(req.entityIndex, updatedOptions)
+  updateCustomerInDB(req.params.id, updatedOptions)
   .then((customer) => res.json(customer))
   .catch(next)
 }
 
 export function deleteCustomer(req, res, next) {
-  deleteCustomerFromDB(req.entityIndex)
+  deleteCustomerFromDB(req.params.id)
   .then((response) => res.send(response))
   .catch(next)
 }
