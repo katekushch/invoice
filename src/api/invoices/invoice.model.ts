@@ -1,12 +1,14 @@
 import mongoose from 'mongoose';
 
 import { InvoiceInterface } from './invoice.interface';
+import Customer from '../customers/customer.model';
 
 const Schema = mongoose.Schema;
 
 const invoiceSchema = new Schema({
   customer_id: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Customer,
     required: true,
   },
   discount: {
@@ -19,6 +21,10 @@ const invoiceSchema = new Schema({
     required: true,
     min: [0, 'Total can`t be less than 0'],
   }
+});
+
+invoiceSchema.pre('remove', (next) => {
+  this.model('InvoiceItem').deleteMany({ invoice_id: this._id }, next);
 });
 
 const Invoice = mongoose.model<InvoiceInterface>('Invoice', invoiceSchema);
