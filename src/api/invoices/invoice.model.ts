@@ -23,7 +23,7 @@ const invoiceSchema = new Schema({
   }
 });
 
-invoiceSchema.pre('remove', (next) => {
+invoiceSchema.pre('remove', function(next) {
   this.model('InvoiceItem').deleteMany({ invoice_id: this._id }, next);
 });
 

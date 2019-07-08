@@ -31,7 +31,7 @@ export function putInvoice(req, res, next) {
 }
 
 export function deleteInvoice(req, res, next) {
-  deleteInvoiceFromDB(req.params.id)
+  deleteInvoiceFromDB(req.entity)
   .then((response) => res.send(response))
   .catch(next)
 }
