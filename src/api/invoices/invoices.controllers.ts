@@ -3,7 +3,7 @@ import {
   deleteInvoiceFromDB,
   getInvoicesFromBD,
   updateInvoiceInDB
-} from './invoicecs.service';
+} from './invoices.service';
 import { InvoiceInterface } from './invoice.interface';
 
 export function getInvoices(req, res, next) {
