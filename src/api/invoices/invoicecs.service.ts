@@ -18,12 +18,21 @@ export async function addInvoiceToDB(invoice) {
   return newEntity.save();
 }
 
-export function updateInvoiceInDB(invoiceId, updatedOptions) {
-  if (updatedOptions.items) {
-    updatedOptions.items.map((invoiceItem) => {
-      InvoiceItem.findOneAndUpdate({invoice_id: invoiceId}, invoiceItem, {new: true});
-    });
-  }
+export async function updateInvoiceInDB(invoiceId, updatedOptions) {
+  await BBPromise.filter(await InvoiceItem.find({}), (item: any) => item.invoice_id.equals(invoiceId))
+  .map((invoiceItem: any) => {
+    const foundedItem = updatedOptions.items.find((item) => invoiceItem._id.equals(item._id));
+    if (foundedItem) {
+      return InvoiceItem.findByIdAndUpdate(foundedItem._id, foundedItem, {new: true});
+    } else {
+      return invoiceItem.remove();
+    }
+  });
+  updatedOptions.items.filter((item) => !item._id).map((invoiceItem) => {
+    invoiceItem.invoice_id = invoiceId;
+    const newInvoiceItem = new InvoiceItem(invoiceItem);
+    return newInvoiceItem.save();
+  });
   return Invoice.findByIdAndUpdate(invoiceId, updatedOptions, {new: true});
 }
 
