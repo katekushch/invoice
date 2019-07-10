@@ -28,7 +28,8 @@ export async function updateInvoiceInDB(invoiceId, updatedOptions) {
       return invoiceItem.remove();
     }
   });
-  updatedOptions.items.filter((item) => !item._id).map((invoiceItem) => {
+  const filteredItems = updatedOptions.items.filter((item) => !item._id);
+  await BBPromise.map(filteredItems, (invoiceItem: InvoiceItemInterface) => {
     invoiceItem.invoice_id = invoiceId;
     const newInvoiceItem = new InvoiceItem(invoiceItem);
     return newInvoiceItem.save();
@@ -39,3 +40,5 @@ export async function updateInvoiceInDB(invoiceId, updatedOptions) {
 export function deleteInvoiceFromDB(invoice) {
   return invoice.remove();
 }
+
+
