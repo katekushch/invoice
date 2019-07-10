@@ -15,6 +15,7 @@ const invoiceSchema = new Schema({
     type: Number,
     required: true,
     min: [0, 'Discount can`t be less than 0'],
+    max: [100, 'Discount can`t be more than 0'],
   },
   total: {
     type: Number,
