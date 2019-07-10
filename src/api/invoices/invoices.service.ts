@@ -47,7 +47,12 @@ export async function updateInvoiceInDB(invoiceId, updatedOptions) {
     const newInvoiceItem = new InvoiceItem(invoiceItem);
     return newInvoiceItem.save();
   });
-  return Invoice.findByIdAndUpdate(invoiceId, updatedOptions, {new: true});
+  const updatedInvoice = await Invoice.findByIdAndUpdate(invoiceId, updatedOptions, {new: true});
+  const total = await this.countTotal(updatedInvoice._id, updatedInvoice.discount);
+  return {
+    ...updatedInvoice.toObject(),
+    total: total,
+  };
 }
 
 export function deleteInvoiceFromDB(invoice) {
