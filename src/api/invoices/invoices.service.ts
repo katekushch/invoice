@@ -5,8 +5,15 @@ import Invoice from './invoice.model';
 import InvoiceItem from './invoice-items/invoice-item.model';
 import { InvoiceItemInterface } from './invoice-items/invoice-item.interface';
 
-export function getInvoicesFromBD() {
-  return Invoice.find();
+export async function getInvoicesFromBD() {
+  const invoices = await BBPromise.map(await Invoice.find(), async (invoice: any) => {
+    const total = await this.countTotal(invoice._id, invoice.discount);
+    return {
+      ...invoice.toObject(),
+      total: total,
+    };
+  });
+  return invoices;
 }
 
 export async function addInvoiceToDB(invoice) {
