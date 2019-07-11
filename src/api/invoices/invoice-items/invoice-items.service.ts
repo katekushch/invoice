@@ -1,7 +1,11 @@
 import InvoiceItem from './invoice-item.model';
 
-export function getInvoiceItemsFromBD(invoiceId) {
-  return InvoiceItem.find({invoice_id: invoiceId});
+export async function getInvoiceItemsFromBD(invoiceId) {
+  return await InvoiceItem.find({invoice_id: invoiceId}).populate('product_id');
+}
+
+export async function getInvoiceItemFromDB(invoiceItemId) {
+  return await InvoiceItem.findById(invoiceItemId).populate('product_id');
 }
 
 export function addInvoiceItemToDB(invoiceItem) {

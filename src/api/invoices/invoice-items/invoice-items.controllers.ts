@@ -1,6 +1,7 @@
 import {
   addInvoiceItemToDB,
   deleteInvoiceItemFromDB,
+  getInvoiceItemFromDB,
   getInvoiceItemsFromBD,
   updateInvoiceItemInDB
 } from './invoice-items.service';
@@ -22,7 +23,9 @@ export function postInvoiceItem(req, res, next) {
 }
 
 export function getInvoiceItem(req, res, next) {
-  res.send(req.entity);
+  getInvoiceItemFromDB(req.params.id)
+  .then((invoiceItem) => res.json(invoiceItem))
+  .catch(next)
 }
 
 export function putInvoiceItem(req, res, next) {
