@@ -1,6 +1,7 @@
 import {
   addInvoiceToDB,
   deleteInvoiceFromDB,
+  getInvoiceFromDB,
   getInvoicesFromBD,
   updateInvoiceInDB
 } from './invoices.service';
@@ -20,7 +21,9 @@ export function postInvoices(req, res, next) {
 }
 
 export function getInvoice(req, res, next) {
-  res.send(req.entity);
+  getInvoiceFromDB(req.params.id)
+  .then((response) => res.status(201).send(response))
+  .catch(next)
 }
 
 export function putInvoice(req, res, next) {

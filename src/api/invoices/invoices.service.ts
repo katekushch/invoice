@@ -6,13 +6,18 @@ import InvoiceItem from './invoice-items/invoice-item.model';
 import { InvoiceItemInterface } from './invoice-items/invoice-item.interface';
 
 export async function getInvoicesFromBD() {
-  return await BBPromise.map(await Invoice.find(), async (invoice: any) => {
+  const invoices = await Invoice.find().populate('customer_id');
+  return await BBPromise.map(invoices, async (invoice: any) => {
     const total = await this.countTotal(invoice._id, invoice.discount);
     return {
       ...invoice.toObject(),
       total: total,
     };
   });
+}
+
+export async function getInvoiceFromDB(invoiceId) {
+  return await Invoice.findById(invoiceId).populate('customer_id');
 }
 
 export async function addInvoiceToDB(invoice) {
@@ -106,6 +111,6 @@ export async function countTotal(invoice_id, discount): Promise<number> {
       }
     }
   ]);
-  return total.total;
+  return total && total.total || 0;
 }
 
