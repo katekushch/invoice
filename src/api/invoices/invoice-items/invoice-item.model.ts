@@ -7,22 +7,26 @@ import Product from '../../products/product.model';
 const Schema = mongoose.Schema;
 
 const invoiceItemSchema = new Schema({
-  invoice_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Invoice,
-    required: true,
+    invoice_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: Invoice,
+      required: true,
+    },
+    product_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: Product,
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      min: [0, 'Quantity can`t be less than 0'],
+    },
   },
-  product_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Product,
-    required: true,
-  },
-  quantity: {
-    type: Number,
-    required: true,
-    min: [0, 'Quantity can`t be less than 0'],
-  }
-});
+  {
+    versionKey: false,
+    timestamps: true,
+  });
 
 
 const InvoiceItem = mongoose.model<InvoiceItemInterface>('InvoiceItem', invoiceItemSchema);
