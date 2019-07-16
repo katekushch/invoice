@@ -10,7 +10,7 @@ export function addProductToDB(product) {
 }
 
 export function updateProductInDB(productId, updatedOptions) {
-  return Product.findByIdAndUpdate(productId, updatedOptions, {new: true});
+  return Product.findByIdAndUpdate(productId, updatedOptions, {new: true, runValidators: true });
 }
 
 export function deleteProductFromDB(productId) {

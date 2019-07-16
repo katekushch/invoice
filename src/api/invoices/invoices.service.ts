@@ -40,7 +40,7 @@ export async function updateInvoiceInDB(invoiceId, updatedOptions) {
   .map((invoiceItem: any) => {
     const foundedItem = updatedOptions.items.find((item) => invoiceItem._id.equals(item._id));
     if (foundedItem) {
-      return InvoiceItem.findByIdAndUpdate(foundedItem._id, foundedItem, {new: true});
+      return InvoiceItem.findByIdAndUpdate(foundedItem._id, foundedItem, {new: true, runValidators: true});
     } else {
       return invoiceItem.remove();
     }
@@ -51,7 +51,7 @@ export async function updateInvoiceInDB(invoiceId, updatedOptions) {
     const newInvoiceItem = new InvoiceItem(invoiceItem);
     return newInvoiceItem.save();
   });
-  const updatedInvoice = await Invoice.findByIdAndUpdate(invoiceId, updatedOptions, {new: true});
+  const updatedInvoice = await Invoice.findByIdAndUpdate(invoiceId, updatedOptions, {new: true, runValidators: true});
   const total = await this.countTotal(updatedInvoice._id, updatedInvoice.discount);
   return {
     ...updatedInvoice.toObject(),

@@ -14,7 +14,7 @@ export function addInvoiceItemToDB(invoiceItem) {
 }
 
 export function updateInvoiceItemInDB(invoiceItemId, updatedOptions) {
-  return InvoiceItem.findByIdAndUpdate(invoiceItemId, updatedOptions, {new: true});
+  return InvoiceItem.findByIdAndUpdate(invoiceItemId, updatedOptions, {new: true, runValidators: true});
 }
 
 export function deleteInvoiceItemFromDB(invoiceItemId) {

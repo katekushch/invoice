@@ -10,7 +10,7 @@ export function addCustomerToDB(customer) {
 }
 
 export function updateCustomerInDB(customerId, updatedOptions) {
-  return Customer.findByIdAndUpdate(customerId, updatedOptions, {new: true});
+  return Customer.findByIdAndUpdate(customerId, updatedOptions, {new: true, runValidators: true });
 }
 
 export function deleteCustomerFromDB(customerId) {
