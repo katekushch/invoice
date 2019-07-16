@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 import { Promise as BBPromise } from 'bluebird'
 
+import Customer from '../customers/customer.model';
 import Invoice from './invoice.model';
 import InvoiceItem from './invoice-items/invoice-item.model';
 import { InvoiceItemInterface } from './invoice-items/invoice-item.interface';
+import { addInvoiceItemToDB } from './invoice-items/invoice-items.service';
 
 export async function getInvoicesFromBD() {
   const invoices = await Invoice.find().populate('customer_id');
@@ -21,18 +23,24 @@ export async function getInvoiceFromDB(invoiceId) {
 }
 
 export async function addInvoiceToDB(invoice) {
-  const newEntity = new Invoice(invoice);
-  await BBPromise.map(invoice.items, (invoiceItem: InvoiceItemInterface) => {
-    invoiceItem.invoice_id = newEntity._id;
-    const newInvoiceItem = new InvoiceItem(invoiceItem);
-    return newInvoiceItem.save();
-  });
-  await newEntity.save();
-  const total = await this.countTotal(newEntity._id, newEntity.discount);
-  return {
-    ...newEntity.toObject(),
-    total: total,
-  };
+  const foundedCustomer = await Customer.findById(invoice.customer_id);
+  if (foundedCustomer) {
+    const newEntity = new Invoice(invoice);
+
+    await BBPromise.map(invoice.items, (invoiceItem: InvoiceItemInterface) => {
+      invoiceItem.invoice_id = newEntity._id;
+      return addInvoiceItemToDB(invoiceItem);
+    });
+
+    await newEntity.save();
+    const total = await this.countTotal(newEntity._id, newEntity.discount);
+    return {
+      ...newEntity.toObject(),
+      total: total,
+    };
+  } else {
+    throw new Error('Customer not found');
+  }
 }
 
 export async function updateInvoiceInDB(invoiceId, updatedOptions) {
@@ -48,8 +56,7 @@ export async function updateInvoiceInDB(invoiceId, updatedOptions) {
   const filteredItems = updatedOptions.items.filter((item) => !item._id);
   await BBPromise.map(filteredItems, (invoiceItem: InvoiceItemInterface) => {
     invoiceItem.invoice_id = invoiceId;
-    const newInvoiceItem = new InvoiceItem(invoiceItem);
-    return newInvoiceItem.save();
+    return addInvoiceItemToDB(invoiceItem);
   });
   const updatedInvoice = await Invoice.findByIdAndUpdate(invoiceId, updatedOptions, {new: true, runValidators: true});
   const total = await this.countTotal(updatedInvoice._id, updatedInvoice.discount);

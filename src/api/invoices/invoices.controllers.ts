@@ -15,6 +15,9 @@ export function getInvoices(req, res, next) {
 
 export function postInvoices(req, res, next) {
   const newInvoice: InvoiceInterface = req.body;
+
+  // TODO create dto and validation
+
   addInvoiceToDB(newInvoice)
   .then((response) => res.status(201).send(response))
   .catch(next)
